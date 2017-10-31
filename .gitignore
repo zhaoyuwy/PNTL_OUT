@@ -1,0 +1,67 @@
+# Eclipse temp file
+.metadata/
+target/
+.classpath
+.class
+.project
+.settings/
+.metadata/
+.jar
+.war
+.pydevproject
+.rar
+.zip
+.springBeans
+.idea/
+
+# Intelij temp file
+*.iml
+*.ipr
+*.iws
+
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.ko
+*.class
+.jar
+.war
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+*.lo
+
+# Executables
+*.exe
+*.out
+*.app
+
+# MicroSoft Office Temp file
+~*
+*.db
+
+# hiden files
+**/.svn/
+**/out/
+
+# Checkstyle Temp file
+*.checkstyle

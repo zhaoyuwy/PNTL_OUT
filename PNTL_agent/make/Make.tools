@@ -1,0 +1,39 @@
+#
+
+SYSOK	= 0
+ifneq "$(SYSNAME)" ""
+SYSOK	= 1		# already set from environment
+endif
+
+# unix or unix-type type hosts
+ifeq "$(SYSOK)" "0"
+SYSNAME	:= $(shell uname -s)
+
+ifeq "$(SYSNAME)" "Linux"
+SYSOK	= 1
+SED	= $(shell which sed)
+GZIP 	= $(shell which gzip)
+TEST	= $(shell which test)
+PERL	= $(shell which perl)
+LN	= $(shell which ln)
+TOUCH   = $(shell which touch)
+ECHO    = $(shell which echo)
+MKDIR   = $(shell which mkdir) -p
+#CCACHE  = $(shell which ccache)
+endif
+endif
+
+ifeq "$(SYSOK)" "0"
+$(error Cannot figure out system type)
+endif
+
+
+
+CC      = $(CCACHE) $(CROSS_COMPILE)gcc
+CXX     = $(CCACHE) $(CROSS_COMPILE)g++
+LD      = $(CROSS_COMPILE)ld
+AR      = $(CROSS_COMPILE)ar
+ARFLAGS = -rc
+STRIP   = $(CROSS_COMPILE)strip
+RANLIB  = $(CROSS_COMPILE)ranlib
+OBJCOPY = $(CROSS_COMPILE)objcopy

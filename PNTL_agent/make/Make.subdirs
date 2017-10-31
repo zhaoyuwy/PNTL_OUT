@@ -1,0 +1,15 @@
+# Make rules/targets for handling subdirectories
+
+.PHONY: ${subdirs}
+
+all:: ${subdirs}
+ifdef QUIET
+	@$(ECHO) END Subdirectory build for ${subdirs}
+endif
+
+${subdirs}::	
+	$(Q)$(MAKE) -C $@ 
+
+clean clean_d install distclean::
+	@$(ECHO) Subdirectory $@ for ${subdirs}
+	@(for name in $(subdirs); do $(MAKE) -C $$name $@; done)

@@ -1,0 +1,55 @@
+---
+- name: Upload&Install ServerAntAgent
+  # install in hosts group sles  
+  hosts: ServerAntAgentForSles
+  # install need root user
+  remote_user: root
+
+  vars:
+    src_file: ./ServerAntAgentForSles.tar.gz
+    dst_dir: /tmp/ServerAntAgent
+    ServiceUserName: cloudeye
+  
+  # do some tasks
+  tasks:
+
+    - name: Create dest directory in host
+      file: >
+            path={{ dst_dir }}
+            state=directory
+
+
+    - name: Copy&Unarchive ServerAntAgent
+      unarchive: >
+                src={{ src_file }}
+                dest={{ dst_dir }}
+
+    #- name: Create user in host
+    #  user: >
+    #        name={{ServiceUserName}}
+    #        comment="ServiceUserForNPM"
+
+    # - name: debug info
+    #  debug: #var=ansible_default_ipv4.address
+              #hostvars[inventory_hostname]
+              #var=inventory_hostname
+
+    - name: Uninstall ServerAntAgent
+      shell: export SERVICE_USER_NAME_OVERRIDE={{ServiceUserName}}; ./UninstallService.sh
+             chdir={{dst_dir}}/ServerAntAgentSetup
+    
+    - name: Install ServerAntAgent 
+      shell: export SERVICE_USER_NAME_OVERRIDE={{ServiceUserName}}; ./InstallService.sh
+             chdir={{dst_dir}}/ServerAntAgentSetup
+      notify: Check ServerAntAgentService Status
+             
+    - name: Delete dest directory in host
+      file: >
+            path={{ dst_dir }}
+            state=absent
+
+  handlers:
+    - name: Check ServerAntAgentService Status
+      service: >
+              name=ServerAntAgentService
+              state=started
